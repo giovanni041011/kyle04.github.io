@@ -1,0 +1,962 @@
+[index4.html](https://github.com/user-attachments/files/33231996/index4.html)
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio & Nasihat Masyayikh - Meraih Prestasi</title>
+  <style>
+    :root {
+      --bg-dark: #070d19;
+      --header-bg: rgba(15, 23, 42, 0.95); /* Header Navigasi Gelap Pekat */
+      --main-box-bg: rgba(30, 41, 59, 0.85); /* Kotak Konten Utama Lebih Terang */
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(245, 158, 11, 0.25);
+      --accent-gold: #f59e0b;
+      --accent-emerald: #10b981;
+      --accent-indigo: #6366f1;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 20px;
+      --shadow-default: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+      --shadow-hover: 0 20px 40px -10px rgba(99, 102, 241, 0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Canvas Animasi Background Meraih Seribu Prestasi */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* KOTAK 1: Header Navigasi Atas */
+    header {
+      background: var(--header-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--accent-gold);
+      padding: 1.2rem 2.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .brand { display: flex; align-items: center; gap: 0.9rem; }
+    .brand-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold); box-shadow: 0 0 12px rgba(245, 158, 11, 0.6); }
+    .brand-title h1 { font-size: 1.2rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+
+    nav { display: flex; gap: 0.6rem; overflow-x: auto; padding: 0.3rem 0; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+
+    .nav-btn {
+      background: rgba(30, 41, 59, 0.8);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.65rem 1.3rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-btn:hover { background: #334155; color: #fff; transform: translateY(-2px); }
+    .nav-btn.active { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: white; border-color: transparent; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
+
+    .admin-trigger-btn {
+      background: linear-gradient(135deg, var(--accent-indigo), #4338ca);
+      color: #fff;
+      border: none;
+      padding: 0.65rem 1.3rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    .admin-trigger-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+
+    /* KOTAK 2: Area Konten Utama Tengah */
+    main { flex: 1; padding: 2.5rem 1.5rem; max-width: 1250px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+    
+    .main-wrapper-box {
+      background: var(--main-box-bg);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-default);
+    }
+
+    .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-title::before { content: ''; width: 5px; height: 24px; background: var(--accent-gold); border-radius: 4px; }
+
+    /* Grid & Card Interaktif */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.8rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-default);
+      border: 1px solid var(--card-border);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+
+    .card:hover, .card:active {
+      transform: translateY(-8px) scale(1.015);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent-gold);
+    }
+
+    .card-clickable { cursor: pointer; }
+    .card-clickable::after {
+      content: '🔗 Klik untuk buka Google';
+      display: block;
+      margin-top: 0.8rem;
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      font-weight: bold;
+    }
+
+    .profile-hero {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-default);
+      border: 1px solid var(--card-border);
+      margin-bottom: 2.5rem;
+      transition: all 0.35s ease;
+    }
+    .profile-hero:hover { transform: translateY(-4px); border-color: var(--accent-gold); }
+
+    .profile-img { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-gold); box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+    .profile-info h2 { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 0.3rem; }
+
+    .info-list { list-style: none; display: grid; gap: 0.9rem; }
+    .info-list li { display: flex; gap: 0.5rem; font-size: 0.95rem; align-items: center; }
+    .info-list strong { min-width: 150px; color: var(--text-muted); font-weight: 600; }
+
+    /* Medsos Link Styling */
+    .medsos-link {
+      color: var(--accent-emerald);
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .medsos-link:hover { color: var(--accent-gold); text-decoration: underline; }
+
+    .img-card-photo { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 1rem; }
+
+    /* Nasihat Card */
+    .quote-card {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+      border-left: 5px solid var(--accent-gold);
+    }
+    .quote-card p { font-style: italic; font-size: 1rem; color: #e2e8f0; line-height: 1.6; margin-bottom: 1rem; }
+    .quote-author { display: flex; align-items: center; gap: 0.8rem; font-weight: 700; color: var(--accent-gold); }
+    .quote-author img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
+
+    /* Admin Panel */
+    .admin-dashboard { background: var(--card-bg); border-radius: var(--radius); border: 2px solid var(--accent-indigo); padding: 2rem; }
+    .admin-nav { display: flex; gap: 0.5rem; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1.5rem; overflow-x: auto; }
+    .admin-tab-btn { background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.1); padding: 0.6rem 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; color: var(--text-muted); }
+    .admin-tab-btn.active { background: var(--accent-indigo); color: white; border-color: transparent; }
+
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #e2e8f0; }
+    .form-control { width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; background: var(--bg-dark); color: white; font-size: 0.9rem; }
+    .form-control:focus { outline: none; border-color: var(--accent-indigo); }
+    textarea.form-control { resize: vertical; min-height: 90px; }
+
+    .btn { padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; }
+    .btn-primary { background: var(--accent-indigo); color: white; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-danger { background: #ef4444; color: white; }
+
+    /* Modal Login */
+    .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-box { background: var(--header-bg); padding: 2.5rem; border-radius: var(--radius); width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--accent-gold); }
+
+    footer { background: #020617; color: var(--text-muted); text-align: center; padding: 1.8rem; margin-top: auto; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas Animasi Background Meraih Seribu Prestasi -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- KOTAK 1: Navigasi Bar Atas -->
+  <header>
+    <div class="brand">
+      <img id="nav-profile-img" src="" alt="Foto" class="brand-avatar" onerror="this.src='https://via.placeholder.com/150'">
+      <div class="brand-title">
+        <h1 id="nav-profile-name">Portofolio</h1>
+      </div>
+    </div>
+
+    <nav>
+      <button class="nav-btn active" onclick="switchTab('beranda')">Beranda</button>
+      <button class="nav-btn" onclick="switchTab('orangtua')">Data Orangtua</button>
+      <button class="nav-btn" onclick="switchTab('pendidikan')">Pendidikan</button>
+      <button class="nav-btn" onclick="switchTab('prestasi')">Prestasi & Impian</button>
+      <button class="nav-btn" onclick="switchTab('medsos')">Media Sosial</button>
+      <button class="nav-btn" onclick="switchTab('nasihat')">✨ Nasihat Guruku</button>
+    </nav>
+
+    <button class="admin-trigger-btn" onclick="handleAdminAccess()">🔒 Dashboard Admin</button>
+  </header>
+
+  <!-- KOTAK 2: Konten Utama Tengah -->
+  <main>
+    <div class="main-wrapper-box">
+      
+      <!-- TAB 1: BERANDA -->
+      <div id="tab-beranda" class="tab-content active">
+        <div class="profile-hero">
+          <img id="view-foto-profil" src="" alt="Foto Profil" class="profile-img" onerror="this.src='https://via.placeholder.com/170'">
+          <div class="profile-info">
+            <h2 id="view-nama">Nama Lengkap</h2>
+            <p style="color: var(--accent-gold); font-weight: 700; margin-bottom: 1.2rem;" id="view-motto">"Motto..."</p>
+            <ul class="info-list">
+              <li><strong>TTL:</strong> <span id="view-ttl">-</span></li>
+              <li><strong>Asal Kota:</strong> <span id="view-kota">-</span></li>
+              <li><strong>Alamat Tempat Tinggal:</strong> <span id="view-alamat">-</span></li>
+              <li><strong>Hafalan Al-Qur'an:</strong> <span id="view-hafalan">-</span></li>
+              <li><strong>Cita-Cita:</strong> <span id="view-cita">-</span></li>
+              <li><strong>Hobi:</strong> <span id="view-hobi">-</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="section-title">Galeri Kenangan</h3>
+        <div class="grid-3" id="view-kenangan-grid"></div>
+      </div>
+
+      <!-- TAB 2: DATA ORANGTUA -->
+      <div id="tab-orangtua" class="tab-content">
+        <h2 class="section-title">Data Orang Tua</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3 style="color: var(--accent-gold); margin-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">👨‍💼 Data Ayah</h3>
+            <ul class="info-list">
+              <li><strong>Nama:</strong> <span id="view-ayah-nama">-</span></li>
+              <li><strong>TTL:</strong> <span id="view-ayah-ttl">-</span></li>
+              <li><strong>Asal Kota:</strong> <span id="view-ayah-kota">-</span></li>
+              <li><strong>Alamat Tempat Tinggal:</strong> <span id="view-ayah-alamat">-</span></li>
+              <li><strong>Pendidikan SMP:</strong> <span id="view-ayah-smp">-</span></li>
+              <li><strong>Pendidikan SMA:</strong> <span id="view-ayah-sma">-</span></li>
+              <li><strong>Pendidikan Kuliah:</strong> <span id="view-ayah-kuliah">-</span></li>
+              <li><strong>Pekerjaan:</strong> <span id="view-ayah-pekerjaan">-</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="color: var(--accent-gold); margin-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">👩‍💼 Data Ibu</h3>
+            <ul class="info-list">
+              <li><strong>Nama:</strong> <span id="view-ibu-nama">-</span></li>
+              <li><strong>TTL:</strong> <span id="view-ibu-ttl">-</span></li>
+              <li><strong>Asal Kota:</strong> <span id="view-ibu-kota">-</span></li>
+              <li><strong>Alamat Tempat Tinggal:</strong> <span id="view-ibu-alamat">-</span></li>
+              <li><strong>Pendidikan SMP:</strong> <span id="view-ibu-smp">-</span></li>
+              <li><strong>Pendidikan SMA:</strong> <span id="view-ibu-sma">-</span></li>
+              <li><strong>Pendidikan Kuliah:</strong> <span id="view-ibu-kuliah">-</span></li>
+              <li><strong>Pekerjaan:</strong> <span id="view-ibu-pekerjaan">-</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 1.8rem;">
+          <h4 style="color: var(--text-muted); margin-bottom: 0.5rem;">👨‍👩‍👧‍👦 Daftar Nama Anak</h4>
+          <p id="view-nama-anak" style="font-weight: 700; color: #fff;">-</p>
+        </div>
+      </div>
+
+      <!-- TAB 3: PENDIDIKAN -->
+      <div id="tab-pendidikan" class="tab-content">
+        <h2 class="section-title">Riwayat Pendidikan (TK, SD, SMP, SMA, Kuliah)</h2>
+        <div class="grid-3" id="view-pendidikan-grid"></div>
+      </div>
+
+      <!-- TAB 4: PRESTASI & UNIVERSITAS IMPIAN -->
+      <div id="tab-prestasi" class="tab-content">
+        <h2 class="section-title">Prestasi Pendidikan</h2>
+        <div class="grid-3" id="view-prestasi-grid" style="margin-bottom: 3rem;"></div>
+
+        <h2 class="section-title">3 Universitas Impian & Jurusan</h2>
+        <div class="grid-3" id="view-univ-grid"></div>
+      </div>
+
+      <!-- TAB 5: MEDIA SOSIAL -->
+      <div id="tab-medsos" class="tab-content">
+        <h2 class="section-title">Kontak & Media Sosial</h2>
+        <div class="grid-2">
+          <div class="card">
+            <ul class="info-list">
+              <li><strong>Instagram:</strong> <a id="link-ig" class="medsos-link" target="_blank" href="#">-</a></li>
+              <li><strong>Facebook:</strong> <a id="link-fb" class="medsos-link" target="_blank" href="#">-</a></li>
+              <li><strong>TikTok:</strong> <a id="link-tiktok" class="medsos-link" target="_blank" href="#">-</a></li>
+              <li><strong>WhatsApp:</strong> <a id="link-wa" class="medsos-link" target="_blank" href="#">-</a></li>
+              <li><strong>Gmail:</strong> <a id="link-email" class="medsos-link" href="#">-</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: NASIHAT GURU -->
+      <div id="tab-nasihat" class="tab-content">
+        <h2 class="section-title">Nasihat Guru-Guru & Masyayikh</h2>
+        <div class="grid-2" id="view-nasihat-grid"></div>
+      </div>
+
+      <!-- DASHBOARD ADMIN -->
+      <div id="tab-admin" class="tab-content">
+        <div class="admin-dashboard">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="color: #fff;">Panel Kontrol Admin</h2>
+            <button class="btn btn-danger" onclick="logoutAdmin()">Keluar Admin</button>
+          </div>
+
+          <div class="admin-nav">
+            <button class="admin-tab-btn active" onclick="switchAdminSection('pribadi')">Data Pribadi</button>
+            <button class="admin-tab-btn" onclick="switchAdminSection('ortu')">Data Orangtua</button>
+            <button class="admin-tab-btn" onclick="switchAdminSection('pend')">Pendidikan</button>
+            <button class="admin-tab-btn" onclick="switchAdminSection('prest')">Prestasi</button>
+            <button class="admin-tab-btn" onclick="switchAdminSection('univ')">Univ Impian</button>
+            <button class="admin-tab-btn" onclick="switchAdminSection('kenangan')">Kenangan</button>
+            <button class="admin-tab-btn" onclick="switchAdminSection('nasihat')">Nasihat Guru</button>
+            <button class="admin-tab-btn" onclick="switchAdminSection('sosmed')">Medsos</button>
+          </div>
+
+          <!-- Section Admin: Data Pribadi -->
+          <div id="admin-sec-pribadi" class="admin-sec">
+            <div class="grid-2">
+              <div class="form-group"><label>Nama Lengkap</label><input type="text" id="adm-nama" class="form-control"></div>
+              <div class="form-group"><label>Foto Profil</label><input type="file" id="adm-foto" class="form-control" accept="image/*"></div>
+              <div class="form-group"><label>Tempat, Tanggal Lahir</label><input type="text" id="adm-ttl" class="form-control"></div>
+              <div class="form-group"><label>Asal Kota</label><input type="text" id="adm-kota" class="form-control"></div>
+              <div class="form-group"><label>Alamat Tempat Tinggal</label><input type="text" id="adm-alamat" class="form-control"></div>
+              <div class="form-group"><label>Hafalan Al-Qur'an</label><input type="text" id="adm-hafalan" class="form-control"></div>
+              <div class="form-group"><label>Cita-Cita</label><input type="text" id="adm-cita" class="form-control"></div>
+              <div class="form-group"><label>Hobi</label><input type="text" id="adm-hobi" class="form-control"></div>
+              <div class="form-group"><label>Motto Hidup</label><input type="text" id="adm-motto" class="form-control"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveDataPribadi()">Simpan Data Pribadi</button>
+          </div>
+
+          <!-- Section Admin: Data Ortu -->
+          <div id="admin-sec-ortu" class="admin-sec" style="display:none;">
+            <h4 style="color:var(--accent-gold); margin-bottom:1rem;">Data Ayah</h4>
+            <div class="grid-2">
+              <div class="form-group"><label>Nama Ayah</label><input type="text" id="adm-ayah-nama" class="form-control"></div>
+              <div class="form-group"><label>TTL Ayah</label><input type="text" id="adm-ayah-ttl" class="form-control"></div>
+              <div class="form-group"><label>Asal Kota Ayah</label><input type="text" id="adm-ayah-kota" class="form-control"></div>
+              <div class="form-group"><label>Alamat Ayah</label><input type="text" id="adm-ayah-alamat" class="form-control"></div>
+              <div class="form-group"><label>Pendidikan SMP Ayah</label><input type="text" id="adm-ayah-smp" class="form-control"></div>
+              <div class="form-group"><label>Pendidikan SMA Ayah</label><input type="text" id="adm-ayah-sma" class="form-control"></div>
+              <div class="form-group"><label>Pendidikan Kuliah Ayah</label><input type="text" id="adm-ayah-kuliah" class="form-control"></div>
+              <div class="form-group"><label>Pekerjaan Ayah</label><input type="text" id="adm-ayah-pekerjaan" class="form-control"></div>
+            </div>
+            <h4 style="color:var(--accent-gold); margin-top:1.5rem; margin-bottom:1rem;">Data Ibu</h4>
+            <div class="grid-2">
+              <div class="form-group"><label>Nama Ibu</label><input type="text" id="adm-ibu-nama" class="form-control"></div>
+              <div class="form-group"><label>TTL Ibu</label><input type="text" id="adm-ibu-ttl" class="form-control"></div>
+              <div class="form-group"><label>Asal Kota Ibu</label><input type="text" id="adm-ibu-kota" class="form-control"></div>
+              <div class="form-group"><label>Alamat Ibu</label><input type="text" id="adm-ibu-alamat" class="form-control"></div>
+              <div class="form-group"><label>Pendidikan SMP Ibu</label><input type="text" id="adm-ibu-smp" class="form-control"></div>
+              <div class="form-group"><label>Pendidikan SMA Ibu</label><input type="text" id="adm-ibu-sma" class="form-control"></div>
+              <div class="form-group"><label>Pendidikan Kuliah Ibu</label><input type="text" id="adm-ibu-kuliah" class="form-control"></div>
+              <div class="form-group"><label>Pekerjaan Ibu</label><input type="text" id="adm-ibu-pekerjaan" class="form-control"></div>
+            </div>
+            <div class="form-group" style="margin-top:1rem;"><label>Daftar Nama Anak</label><input type="text" id="adm-nama-anak" class="form-control"></div>
+            <button class="btn btn-primary" onclick="saveDataOrtu()">Simpan Data Orangtua</button>
+          </div>
+
+          <!-- Section Admin: Pendidikan -->
+          <div id="admin-sec-pend" class="admin-sec" style="display:none;">
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Jenjang</label>
+                <select id="adm-pend-jenjang" class="form-control">
+                  <option value="TK">TK</option><option value="SD">SD</option><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="Kuliah">Kuliah</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Nama Sekolah / Kampus</label><input type="text" id="adm-pend-nama" class="form-control"></div>
+              <div class="form-group"><label>Lokasi</label><input type="text" id="adm-pend-lokasi" class="form-control"></div>
+              <div class="form-group"><label>Foto Sekolah</label><input type="file" id="adm-pend-foto" class="form-control" accept="image/*"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveDataPendidikan()">Tambah Data Pendidikan</button>
+          </div>
+
+          <!-- Section Admin: Prestasi -->
+          <div id="admin-sec-prest" class="admin-sec" style="display:none;">
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Jenjang Pendidikan</label>
+                <select id="adm-prest-jenjang" class="form-control">
+                  <option value="TK">TK</option><option value="SD">SD</option><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="Kuliah">Kuliah</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Nama Prestasi</label><input type="text" id="adm-prest-nama" class="form-control"></div>
+              <div class="form-group"><label>Foto Bukti Prestasi</label><input type="file" id="adm-prest-foto" class="form-control" accept="image/*"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveDataPrestasi()">Tambah Prestasi</button>
+          </div>
+
+          <!-- Section Admin: Univ Impian -->
+          <div id="admin-sec-univ" class="admin-sec" style="display:none;">
+            <div class="grid-2">
+              <div class="form-group"><label>Nama Universitas</label><input type="text" id="adm-univ-nama" class="form-control"></div>
+              <div class="form-group"><label>Jurusan</label><input type="text" id="adm-univ-jurusan" class="form-control"></div>
+              <div class="form-group"><label>Foto Kampus</label><input type="file" id="adm-univ-foto" class="form-control" accept="image/*"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveDataUniv()">Tambah Universitas Impian</button>
+          </div>
+
+          <!-- Section Admin: Kenangan -->
+          <div id="admin-sec-kenangan" class="admin-sec" style="display:none;">
+            <div class="grid-2">
+              <div class="form-group"><label>Keterangan Foto</label><input type="text" id="adm-kenangan-ket" class="form-control"></div>
+              <div class="form-group"><label>Upload Foto</label><input type="file" id="adm-kenangan-foto" class="form-control" accept="image/*"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveDataKenangan()">Tambah Foto Kenangan</button>
+          </div>
+
+          <!-- Section Admin: Nasihat Guru -->
+          <div id="admin-sec-nasihat" class="admin-sec" style="display:none;">
+            <div class="grid-2">
+              <div class="form-group"><label>Nama Guru / Masyayikh</label><input type="text" id="adm-nasihat-guru" class="form-control"></div>
+              <div class="form-group"><label>Foto Guru</label><input type="file" id="adm-nasihat-foto" class="form-control" accept="image/*"></div>
+            </div>
+            <div class="form-group"><label>Isi Nasihat</label><textarea id="adm-nasihat-isi" class="form-control"></textarea></div>
+            <button class="btn btn-primary" onclick="saveDataNasihat()">Tambah Nasihat</button>
+          </div>
+
+          <!-- Section Admin: Medsos -->
+          <div id="admin-sec-sosmed" class="admin-sec" style="display:none;">
+            <div class="grid-2">
+              <div class="form-group"><label>Instagram (Username/Link)</label><input type="text" id="adm-ig" class="form-control"></div>
+              <div class="form-group"><label>Facebook (Nama/Link)</label><input type="text" id="adm-fb" class="form-control"></div>
+              <div class="form-group"><label>TikTok (Username/Link)</label><input type="text" id="adm-tiktok" class="form-control"></div>
+              <div class="form-group"><label>WhatsApp (Nomor HP)</label><input type="text" id="adm-wa" class="form-control"></div>
+              <div class="form-group"><label>Gmail (Alamat Email)</label><input type="text" id="adm-email" class="form-control"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveDataMedsos()">Simpan Kontak & Medsos</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Modal Password Admin -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-box">
+      <h3 style="color: #fff; margin-bottom: 0.5rem;">Password Admin Required</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Masukkan password rahasia untuk mengontrol web.</p>
+      <input type="password" id="adminPassword" class="form-control" placeholder="Masukkan Password" style="margin-bottom: 1.2rem;">
+      <div style="display:flex; gap:0.6rem;">
+        <button class="btn btn-primary" style="flex:1" onclick="validateLogin()">Masuk</button>
+        <button class="btn btn-danger" onclick="closeLoginModal()">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Portofolio & Nasihat Guruku. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    /* Script Background Animasi Partikel "Meraih Seribu Prestasi" */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class StarParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedY = -(Math.random() * 0.8 + 0.2);
+        this.alpha = Math.random();
+        this.fadeSpeed = Math.random() * 0.01 + 0.005;
+      }
+      update() {
+        this.y += this.speedY;
+        this.alpha += this.fadeSpeed;
+        if (this.alpha > 1 || this.alpha < 0) this.fadeSpeed = -this.fadeSpeed;
+        if (this.y < 0) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.abs(this.alpha);
+        ctx.fillStyle = '#f59e0b';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 90; i++) {
+      particles.push(new StarParticle());
+    }
+
+    function animateBg() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateBg);
+    }
+    animateBg();
+
+    /* Sistem Aplikasi & LocalStorage Admin */
+    const ADMIN_PW = "ADMIN2026";
+    let isAdminLoggedIn = false;
+
+    const defaultData = {
+      pribadi: { nama: "Ahmad Hidayat", ttl: "Jakarta, 12 Januari 2005", kota: "Jakarta", alamat: "Jl. Raya Kebon Jeruk No. 45, Jakarta Barat", hafalan: "30 Juz", cita: "Software Engineer & Da'i", hobi: "Coding & Membaca", motto: "Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lain", foto: "" },
+      ortu: { 
+        ayahNama: "Bambang S", ayahTtl: "Bandung, 10 Mei 1975", ayahKota: "Bandung", ayahAlamat: "Jl. Merdeka No. 12, Bandung", ayahSmp: "SMPN 1 Bandung", ayahSma: "SMAN 3 Bandung", ayahKuliah: "Universitas Padjadjaran", ayahPekerjaan: "Wiraswasta", 
+        ibuNama: "Siti Rahma", ibuTtl: "Surakarta, 15 Agustus 1978", ibuKota: "Solo", ibuAlamat: "Jl. Slamet Riyadi No. 88, Solo", ibuSmp: "SMPN 2 Solo", ibuSma: "SMAN 1 Solo", ibuKuliah: "Universitas Sebelas Maret", ibuPekerjaan: "Guru", 
+        namaAnak: "1. Ahmad Hidayat, 2. Aisyah Putri" 
+      },
+      pendidikan: [
+        { jenjang: "TK", nama: "TK Islam Terpadu Al-Azhar", lokasi: "Jakarta", foto: "" },
+        { jenjang: "SD", nama: "SD Negeri 01 Pagi", lokasi: "Jakarta", foto: "" },
+        { jenjang: "SMP", nama: "SMP Negeri 1 Jakarta", lokasi: "Jakarta", foto: "" },
+        { jenjang: "SMA", nama: "SMA Negeri 28 Jakarta", lokasi: "Jakarta", foto: "" }
+      ],
+      prestasi: [
+        { jenjang: "SD", nama: "Juara 1 Lomba MHQ Tingkat Kota", foto: "" },
+        { jenjang: "SMA", nama: "Juara 2 Olimpiade Informatika", foto: "" }
+      ],
+      univ: [
+        { nama: "Universitas Indonesia", jurusan: "Teknik Informatika", foto: "" },
+        { nama: "Institut Teknologi Bandung", jurusan: "Teknik Informatika", foto: "" },
+        { nama: "Universitas Gadjah Mada", jurusan: "Ilmu Komputer", foto: "" }
+      ],
+      kenangan: [
+        { ket: "Wisuda Tahfidz Al-Qur'an 30 Juz", foto: "" }
+      ],
+      nasihat: [
+        { guru: "KH. Abdullah Gymnastear", isi: "Jagalah hatimu dari sifat sombong, karena keilmuan tanpa kerendahan hati hanya akan menjadi beban.", foto: "" },
+        { guru: "Ustadz Adi Hidayat", isi: "Istiqomah dalam menuntut ilmu adalah kunci dibukanya pintu-pintu kebaikan dunia dan akhirat.", foto: "" }
+      ],
+      medsos: { ig: "ahmad_hidayat", fb: "Ahmad Hidayat", tiktok: "ahmad_code", wa: "081234567890", email: "ahmad@gmail.com" }
+    };
+
+    let store = {};
+
+    function loadDatabase() {
+      const saved = localStorage.getItem('portofolioPersistentDB');
+      if (saved) {
+        store = JSON.parse(saved);
+      } else {
+        store = defaultData;
+      }
+      renderAllViews();
+    }
+
+    function saveDatabase() {
+      localStorage.setItem('portofolioPersistentDB', JSON.stringify(store));
+      renderAllViews();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      
+      const target = document.getElementById(`tab-${tabId}`);
+      if (target) target.classList.add('active');
+
+      const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(`'${tabId}'`));
+      if (btn) btn.classList.add('active');
+    }
+
+    function switchAdminSection(secId) {
+      document.querySelectorAll('.admin-sec').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.admin-tab-btn').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(`admin-sec-${secId}`).style.display = 'block';
+      event.target.classList.add('active');
+    }
+
+    function getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    function openGoogleCampus(campusName) {
+      const query = encodeURIComponent(campusName);
+      window.open(`https://www.google.com/search?q=${query}`, '_blank');
+    }
+
+    function renderAllViews() {
+      document.getElementById('nav-profile-name').innerText = store.pribadi.nama;
+      document.getElementById('view-nama').innerText = store.pribadi.nama;
+      document.getElementById('view-ttl').innerText = store.pribadi.ttl;
+      document.getElementById('view-kota').innerText = store.pribadi.kota;
+      document.getElementById('view-alamat').innerText = store.pribadi.alamat;
+      document.getElementById('view-hafalan').innerText = store.pribadi.hafalan;
+      document.getElementById('view-cita').innerText = store.pribadi.cita;
+      document.getElementById('view-hobi').innerText = store.pribadi.hobi;
+      document.getElementById('view-motto').innerText = `"${store.pribadi.motto}"`;
+      if (store.pribadi.foto) {
+        document.getElementById('nav-profile-img').src = store.pribadi.foto;
+        document.getElementById('view-foto-profil').src = store.pribadi.foto;
+      }
+
+      document.getElementById('view-ayah-nama').innerText = store.ortu.ayahNama;
+      document.getElementById('view-ayah-ttl').innerText = store.ortu.ayahTtl;
+      document.getElementById('view-ayah-kota').innerText = store.ortu.ayahKota;
+      document.getElementById('view-ayah-alamat').innerText = store.ortu.ayahAlamat;
+      document.getElementById('view-ayah-smp').innerText = store.ortu.ayahSmp;
+      document.getElementById('view-ayah-sma').innerText = store.ortu.ayahSma;
+      document.getElementById('view-ayah-kuliah').innerText = store.ortu.ayahKuliah;
+      document.getElementById('view-ayah-pekerjaan').innerText = store.ortu.ayahPekerjaan;
+
+      document.getElementById('view-ibu-nama').innerText = store.ortu.ibuNama;
+      document.getElementById('view-ibu-ttl').innerText = store.ortu.ibuTtl;
+      document.getElementById('view-ibu-kota').innerText = store.ortu.ibuKota;
+      document.getElementById('view-ibu-alamat').innerText = store.ortu.ibuAlamat;
+      document.getElementById('view-ibu-smp').innerText = store.ortu.ibuSmp;
+      document.getElementById('view-ibu-sma').innerText = store.ortu.ibuSma;
+      document.getElementById('view-ibu-kuliah').innerText = store.ortu.ibuKuliah;
+      document.getElementById('view-ibu-pekerjaan').innerText = store.ortu.ibuPekerjaan;
+      document.getElementById('view-nama-anak').innerText = store.ortu.namaAnak;
+
+      const pendGrid = document.getElementById('view-pendidikan-grid');
+      pendGrid.innerHTML = '';
+      store.pendidikan.forEach(p => {
+        pendGrid.innerHTML += `
+          <div class="card">
+            <img src="${p.foto || 'https://via.placeholder.com/300x200?text=Foto+Sekolah'}" class="img-card-photo">
+            <span style="background:var(--accent-indigo); color:white; padding:0.25rem 0.7rem; border-radius:20px; font-size:0.75rem; font-weight:bold;">${p.jenjang}</span>
+            <h3 style="margin-top:0.6rem; color:#fff;">${p.nama}</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.4rem;">📍 ${p.lokasi}</p>
+          </div>
+        `;
+      });
+
+      const prestGrid = document.getElementById('view-prestasi-grid');
+      prestGrid.innerHTML = '';
+      store.prestasi.forEach(pr => {
+        prestGrid.innerHTML += `
+          <div class="card">
+            <img src="${pr.foto || 'https://via.placeholder.com/300x200?text=Foto+Prestasi'}" class="img-card-photo">
+            <span style="background:var(--accent-gold); color:#fff; padding:0.25rem 0.7rem; border-radius:20px; font-size:0.75rem; font-weight:bold;">${pr.jenjang}</span>
+            <h4 style="margin-top:0.6rem; color:#fff;">${pr.nama}</h4>
+          </div>
+        `;
+      });
+
+      // Universitas Impian dengan Fitur Klik -> Google
+      const univGrid = document.getElementById('view-univ-grid');
+      univGrid.innerHTML = '';
+      store.univ.forEach(u => {
+        univGrid.innerHTML += `
+          <div class="card card-clickable" onclick="openGoogleCampus('${u.nama}')">
+            <img src="${u.foto || 'https://via.placeholder.com/300x200?text=Foto+Kampus'}" class="img-card-photo">
+            <h3 style="color:#fff;">${u.nama}</h3>
+            <p style="font-weight:700; color:var(--accent-gold); margin-top:0.3rem;">Jurusan: ${u.jurusan}</p>
+          </div>
+        `;
+      });
+
+      const kenanganGrid = document.getElementById('view-kenangan-grid');
+      kenanganGrid.innerHTML = '';
+      store.kenangan.forEach(k => {
+        kenanganGrid.innerHTML += `
+          <div class="card">
+            <img src="${k.foto || 'https://via.placeholder.com/300x200?text=Foto+Kenangan'}" class="img-card-photo">
+            <p style="font-weight:700; font-size:0.95rem; color:#fff;">${k.ket}</p>
+          </div>
+        `;
+      });
+
+      const nasihatGrid = document.getElementById('view-nasihat-grid');
+      nasihatGrid.innerHTML = '';
+      store.nasihat.forEach(n => {
+        nasihatGrid.innerHTML += `
+          <div class="card quote-card">
+            <p>"${n.isi}"</p>
+            <div class="quote-author">
+              <img src="${n.foto || 'https://via.placeholder.com/100?text=Guru'}" onerror="this.src='https://via.placeholder.com/100?text=Guru'">
+              <span>${n.guru}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      // Format Medsos Direct Links
+      const igVal = store.medsos.ig || '-';
+      const igClean = igVal.replace('@', '');
+      const igElem = document.getElementById('link-ig');
+      igElem.innerText = igVal;
+      igElem.href = igVal.startsWith('http') ? igVal : `https://instagram.com/${igClean}`;
+
+      const fbVal = store.medsos.fb || '-';
+      const fbElem = document.getElementById('link-fb');
+      fbElem.innerText = fbVal;
+      fbElem.href = fbVal.startsWith('http') ? fbVal : `https://facebook.com/${encodeURIComponent(fbVal)}`;
+
+      const tiktokVal = store.medsos.tiktok || '-';
+      const tiktokClean = tiktokVal.replace('@', '');
+      const tiktokElem = document.getElementById('link-tiktok');
+      tiktokElem.innerText = tiktokVal;
+      tiktokElem.href = tiktokVal.startsWith('http') ? tiktokVal : `https://tiktok.com/@${tiktokClean}`;
+
+      const waVal = store.medsos.wa || '-';
+      const waClean = waVal.replace(/[^0-9]/g, '');
+      const waElem = document.getElementById('link-wa');
+      waElem.innerText = waVal;
+      waElem.href = `https://wa.me/${waClean.startsWith('0') ? '62' + waClean.slice(1) : waClean}`;
+
+      const emailVal = store.medsos.email || '-';
+      const emailElem = document.getElementById('link-email');
+      emailElem.innerText = emailVal;
+      emailElem.href = `mailto:${emailVal}`;
+    }
+
+    function handleAdminAccess() {
+      if (isAdminLoggedIn) switchTab('admin');
+      else document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+
+    function validateLogin() {
+      const pw = document.getElementById('adminPassword').value;
+      if (pw === ADMIN_PW) {
+        isAdminLoggedIn = true;
+        closeLoginModal();
+        populateAdminForms();
+        switchTab('admin');
+      } else {
+        alert("Password Admin Salah!");
+      }
+    }
+
+    function logoutAdmin() {
+      isAdminLoggedIn = false;
+      switchTab('beranda');
+    }
+
+    function populateAdminForms() {
+      document.getElementById('adm-nama').value = store.pribadi.nama;
+      document.getElementById('adm-ttl').value = store.pribadi.ttl;
+      document.getElementById('adm-kota').value = store.pribadi.kota;
+      document.getElementById('adm-alamat').value = store.pribadi.alamat;
+      document.getElementById('adm-hafalan').value = store.pribadi.hafalan;
+      document.getElementById('adm-cita').value = store.pribadi.cita;
+      document.getElementById('adm-hobi').value = store.pribadi.hobi;
+      document.getElementById('adm-motto').value = store.pribadi.motto;
+
+      document.getElementById('adm-ayah-nama').value = store.ortu.ayahNama;
+      document.getElementById('adm-ayah-ttl').value = store.ortu.ayahTtl;
+      document.getElementById('adm-ayah-kota').value = store.ortu.ayahKota;
+      document.getElementById('adm-ayah-alamat').value = store.ortu.ayahAlamat;
+      document.getElementById('adm-ayah-smp').value = store.ortu.ayahSmp;
+      document.getElementById('adm-ayah-sma').value = store.ortu.ayahSma;
+      document.getElementById('adm-ayah-kuliah').value = store.ortu.ayahKuliah;
+      document.getElementById('adm-ayah-pekerjaan').value = store.ortu.ayahPekerjaan;
+
+      document.getElementById('adm-ibu-nama').value = store.ortu.ibuNama;
+      document.getElementById('adm-ibu-ttl').value = store.ortu.ibuTtl;
+      document.getElementById('adm-ibu-kota').value = store.ortu.ibuKota;
+      document.getElementById('adm-ibu-alamat').value = store.ortu.ibuAlamat;
+      document.getElementById('adm-ibu-smp').value = store.ortu.ibuSmp;
+      document.getElementById('adm-ibu-sma').value = store.ortu.ibuSma;
+      document.getElementById('adm-ibu-kuliah').value = store.ortu.ibuKuliah;
+      document.getElementById('adm-ibu-pekerjaan').value = store.ortu.ibuPekerjaan;
+      document.getElementById('adm-nama-anak').value = store.ortu.namaAnak;
+
+      document.getElementById('adm-ig').value = store.medsos.ig;
+      document.getElementById('adm-fb').value = store.medsos.fb;
+      document.getElementById('adm-tiktok').value = store.medsos.tiktok;
+      document.getElementById('adm-wa').value = store.medsos.wa;
+      document.getElementById('adm-email').value = store.medsos.email;
+    }
+
+    async function saveDataPribadi() {
+      store.pribadi.nama = document.getElementById('adm-nama').value;
+      store.pribadi.ttl = document.getElementById('adm-ttl').value;
+      store.pribadi.kota = document.getElementById('adm-kota').value;
+      store.pribadi.alamat = document.getElementById('adm-alamat').value;
+      store.pribadi.hafalan = document.getElementById('adm-hafalan').value;
+      store.pribadi.cita = document.getElementById('adm-cita').value;
+      store.pribadi.hobi = document.getElementById('adm-hobi').value;
+      store.pribadi.motto = document.getElementById('adm-motto').value;
+
+      const file = document.getElementById('adm-foto').files[0];
+      if (file) store.pribadi.foto = await getBase64(file);
+
+      saveDatabase();
+      alert("Data Pribadi Berhasil Disimpan!");
+    }
+
+    function saveDataOrtu() {
+      store.ortu.ayahNama = document.getElementById('adm-ayah-nama').value;
+      store.ortu.ayahTtl = document.getElementById('adm-ayah-ttl').value;
+      store.ortu.ayahKota = document.getElementById('adm-ayah-kota').value;
+      store.ortu.ayahAlamat = document.getElementById('adm-ayah-alamat').value;
+      store.ortu.ayahSmp = document.getElementById('adm-ayah-smp').value;
+      store.ortu.ayahSma = document.getElementById('adm-ayah-sma').value;
+      store.ortu.ayahKuliah = document.getElementById('adm-ayah-kuliah').value;
+      store.ortu.ayahPekerjaan = document.getElementById('adm-ayah-pekerjaan').value;
+
+      store.ortu.ibuNama = document.getElementById('adm-ibu-nama').value;
+      store.ortu.ibuTtl = document.getElementById('adm-ibu-ttl').value;
+      store.ortu.ibuKota = document.getElementById('adm-ibu-kota').value;
+      store.ortu.ibuAlamat = document.getElementById('adm-ibu-alamat').value;
+      store.ortu.ibuSmp = document.getElementById('adm-ibu-smp').value;
+      store.ortu.ibuSma = document.getElementById('adm-ibu-sma').value;
+      store.ortu.ibuKuliah = document.getElementById('adm-ibu-kuliah').value;
+      store.ortu.ibuPekerjaan = document.getElementById('adm-ibu-pekerjaan').value;
+      store.ortu.namaAnak = document.getElementById('adm-nama-anak').value;
+
+      saveDatabase();
+      alert("Data Orangtua Berhasil Disimpan!");
+    }
+
+    async function saveDataPendidikan() {
+      const jenjang = document.getElementById('adm-pend-jenjang').value;
+      const nama = document.getElementById('adm-pend-nama').value;
+      const lokasi = document.getElementById('adm-pend-lokasi').value;
+      const file = document.getElementById('adm-pend-foto').files[0];
+
+      let foto = "";
+      if (file) foto = await getBase64(file);
+
+      store.pendidikan.push({ jenjang, nama, lokasi, foto });
+      saveDatabase();
+      alert("Pendidikan Ditambahkan!");
+    }
+
+    async function saveDataPrestasi() {
+      const jenjang = document.getElementById('adm-prest-jenjang').value;
+      const nama = document.getElementById('adm-prest-nama').value;
+      const file = document.getElementById('adm-prest-foto').files[0];
+
+      let foto = "";
+      if (file) foto = await getBase64(file);
+
+      store.prestasi.push({ jenjang, nama, foto });
+      saveDatabase();
+      alert("Prestasi Ditambahkan!");
+    }
+
+    async function saveDataUniv() {
+      const nama = document.getElementById('adm-univ-nama').value;
+      const jurusan = document.getElementById('adm-univ-jurusan').value;
+      const file = document.getElementById('adm-univ-foto').files[0];
+
+      let foto = "";
+      if (file) foto = await getBase64(file);
+
+      store.univ.push({ nama, jurusan, foto });
+      saveDatabase();
+      alert("Univ Impian Ditambahkan!");
+    }
+
+    async function saveDataKenangan() {
+      const ket = document.getElementById('adm-kenangan-ket').value;
+      const file = document.getElementById('adm-kenangan-foto').files[0];
+
+      let foto = "";
+      if (file) foto = await getBase64(file);
+
+      store.kenangan.push({ ket, foto });
+      saveDatabase();
+      alert("Kenangan Ditambahkan!");
+    }
+
+    async function saveDataNasihat() {
+      const guru = document.getElementById('adm-nasihat-guru').value;
+      const isi = document.getElementById('adm-nasihat-isi').value;
+      const file = document.getElementById('adm-nasihat-foto').files[0];
+
+      let foto = "";
+      if (file) foto = await getBase64(file);
+
+      store.nasihat.push({ guru, isi, foto });
+      saveDatabase();
+      alert("Nasihat Guru Ditambahkan!");
+    }
+
+    function saveDataMedsos() {
+      store.medsos.ig = document.getElementById('adm-ig').value;
+      store.medsos.fb = document.getElementById('adm-fb').value;
+      store.medsos.tiktok = document.getElementById('adm-tiktok').value;
+      store.medsos.wa = document.getElementById('adm-wa').value;
+      store.medsos.email = document.getElementById('adm-email').value;
+
+      saveDatabase();
+      alert("Medsos Berhasil Disimpan!");
+    }
+
+    window.onload = function() {
+      loadDatabase();
+    };
+  </script>
+</body>
+</html>
